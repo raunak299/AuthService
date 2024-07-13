@@ -24,6 +24,16 @@ class UserService {
       throw err;
     }
   }
+
+  async getById(data) {
+    try {
+      const user = await this.userRepository.getById(data);
+      return user;
+    } catch (err) {
+      console.log("something went wrong at user service");
+      throw err;
+    }
+  }
 }
 
 module.exports = UserService;
