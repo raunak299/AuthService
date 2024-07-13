@@ -14,6 +14,8 @@ const prepareAndStartServer = (req, res) => {
 
   app.listen(PORT, () => {
     console.log("server started at 3001");
+
+    const service = new UserService();
   });
 };
 
