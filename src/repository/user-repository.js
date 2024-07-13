@@ -5,7 +5,7 @@ class UserRepository {
   async create(data) {
     try {
       const user = await User.create(data);
-      return user;
+      return { user: user.id, email: user.email };
     } catch (err) {
       console.log("something went wrong at user repository");
       throw err;
@@ -13,7 +13,6 @@ class UserRepository {
   }
 
   async destroy(userId) {
-    console.log("repo", userId);
     try {
       await User.destroy({
         where: {
@@ -35,6 +34,20 @@ class UserRepository {
       return user;
     } catch (err) {
       console.log("something went wrong at user repository");
+      throw err;
+    }
+  }
+
+  async getByEmail(userEmail) {
+    try {
+      const user = await User.findOne({
+        where: {
+          email: userEmail,
+        },
+      });
+      return user;
+    } catch (err) {
+      console.log("Something went wrong in user repository");
       throw err;
     }
   }

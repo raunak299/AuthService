@@ -27,7 +27,7 @@ const create = async (req, res) => {
 const destroy = async (req, res) => {
   try {
     const response = await userService.destroy(req.params.id);
-    return res.status(SuccessCodes.CREATED).json({
+    return res.status(SuccessCodes.OK).json({
       data: response,
       message: "User deleted successfully",
       success: true,
@@ -46,7 +46,7 @@ const destroy = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const response = await userService.getById(req.params.id);
-    return res.status(SuccessCodes.CREATED).json({
+    return res.status(SuccessCodes.OK).json({
       data: response,
       message: "User fetched successfully",
       success: true,
@@ -62,8 +62,31 @@ const getById = async (req, res) => {
   }
 };
 
+const signIn = async (req, res) => {
+  try {
+    const response = await userService.signIn(
+      req.body.email,
+      req.body.password
+    );
+    return res.status(SuccessCodes.CREATED).json({
+      data: response,
+      message: "User signed in successfully",
+      success: true,
+      err: {},
+    });
+  } catch (err) {
+    return res.status(500).json({
+      data: {},
+      message: "Something went wrong",
+      success: false,
+      err: err,
+    });
+  }
+};
+
 module.exports = {
   create,
   destroy,
   getById,
+  signIn,
 };
