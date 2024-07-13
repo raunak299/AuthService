@@ -99,7 +99,15 @@ class UserService {
       }
       return user.id;
     } catch (err) {
-      console.log(err);
+      console.log("something went wrong at user service");
+      throw err;
+    }
+  }
+
+  async isAdmin(userId) {
+    try {
+      return this.userRepository.isAdmin(userId);
+    } catch (err) {
       console.log("something went wrong at user service");
       throw err;
     }
