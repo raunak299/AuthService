@@ -36,7 +36,7 @@ class UserService {
 
   createToken(user) {
     try {
-      const result = jwt.sign(user, JWT_KEY, { expiresIn: "30s" });
+      const result = jwt.sign(user, JWT_KEY, { expiresIn: "3h" });
       return result;
     } catch (err) {
       console.log("something went wrong in token creation");
@@ -82,6 +82,24 @@ class UserService {
       const user = await this.userRepository.getById(data);
       return user;
     } catch (err) {
+      console.log("something went wrong at user service");
+      throw err;
+    }
+  }
+
+  async isAuthenticated(token) {
+    try {
+      const response = this.verifyToken(token);
+      if (!response) {
+        throw { error: "Invalid Token" };
+      }
+      const user = this.userRepository.getById(response.id);
+      if (!user) {
+        throw { error: "No user with corresponding token exists" };
+      }
+      return user.id;
+    } catch (err) {
+      console.log(err);
       console.log("something went wrong at user service");
       throw err;
     }
